@@ -13,6 +13,14 @@ password = "Empa2021*"
 server = "Pepperstone-Demo"
 mt.login(login, password, server)
 
+def Price(symbol,type):
+    if type == "BUY":
+        price = mt.symbol_info_tick(symbol).ask
+        print(price)
+    else:
+        price = mt.symbol_info_tick(symbol).bid
+
+    return price
 
 def tradebuy(symbol, volume, type):
 
@@ -41,8 +49,8 @@ def tradebuy(symbol, volume, type):
 
 
 positions = mt.positions_get()
-for pos in positions:
-    print(pos.ticket)
+# for pos in positions:
+#     print(pos.ticket)
 
 
 def calc_position_size(symbol, strategy):
@@ -51,14 +59,21 @@ def calc_position_size(symbol, strategy):
     balance = float(account.balance)
     print(balance)
     pip_value = constants.get_pip_value(symbol, strategy['account_currency'])
+    pip_value2 = Price(symbol,'BUY')
     print(pip_value)
     lot_size = (float(
-        balance) * (float(strategy["risk"])/100)) / (pip_value * strategy["stopLoss"])
+       balance) * (float(strategy["risk"])/100)) / (pip_value * strategy["stopLoss"])
     lot_size = round(lot_size, 2)
+
+    lot_size2 = (float(
+        balance) * (float(strategy["risk"])/100)) / (pip_value2 * strategy["stopLoss"])
+    lot_size2 = round(lot_size2, 2)
+
+    print("lot: ", lot_size2)
     return lot_size
 
 
-lot_size = calc_position_size('USDJPY', {
+lot_size = calc_position_size('AUDUSD', {
     "account_currency": "USD",
     "risk": 2,
     "stopLoss": 20})
