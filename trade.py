@@ -4,6 +4,7 @@ import MetaTrader5 as mt
 import pandas as pd
 import plotly.express as px
 from datetime import datetime
+import constants
 
 mt.initialize()
 
@@ -42,19 +43,24 @@ def tradebuy(symbol, volume, type):
 positions = mt.positions_get()
 for pos in positions:
     print(pos.ticket)
-# price = mt.symbol_info_tick("BTCUSD").ask
-# print("asdsa", price)
 
-# sltp_request = {
-#     "action": mt.TRADE_ACTION_SLTP,
-#     "symbol": symbol,
-#     "volume": 0.03,
-#     "type": mt.ORDER_TYPE_SELL,
-#     "position": 36545450,
-#     "sl": 20,
-#     "price": mt.symbol_info_tick(symbol).ask,
-#     "magic": 234000,
-#     "comment": "Change stop loss",
-#     "type_time": mt.ORDER_TIME_GTC,
-#     "type_filling": mt.ORDER_FILLING_IOC,
-# }
+
+def calc_position_size(symbol, strategy):
+    print("Calculating position size for: ", symbol)
+    account = mt.account_info()
+    balance = float(account.balance)
+    print(balance)
+    pip_value = constants.get_pip_value(symbol, strategy['account_currency'])
+    print(pip_value)
+    lot_size = (float(
+        balance) * (float(strategy["risk"])/100)) / (pip_value * strategy["stopLoss"])
+    lot_size = round(lot_size, 2)
+    return lot_size
+
+
+lot_size = calc_position_size('USDJPY', {
+    "account_currency": "USD",
+    "risk": 2,
+    "stopLoss": 20})
+
+print(lot_size)
