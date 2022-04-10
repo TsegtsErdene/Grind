@@ -10,12 +10,13 @@ import constants
 
 mt.initialize()
 
-login = 61059970
-password = "Empa2021*"
-server = "Pepperstone-Demo"
+login = 1051149006
+password = "SRUWVKA6BZ"
+server = "FTMO-Demo"
 mt.login(login, password, server)
 
-def Price(symbol,type):
+
+def Price(symbol, type):
     if type == "BUY":
         price = mt.symbol_info_tick(symbol).ask
         print(price)
@@ -23,7 +24,6 @@ def Price(symbol,type):
         price = mt.symbol_info_tick(symbol).bid
 
     return price
-
 
 
 positions = mt.positions_get()
@@ -37,10 +37,10 @@ def calc_position_size(symbol, strategy):
     balance = float(account.balance)
     print(balance)
     pip_value = constants.get_pip_value(symbol, strategy['account_currency'])
-    pip_value2 = Price(symbol,'BUY')
+    pip_value2 = Price(symbol, 'BUY')
     print(pip_value)
     lot_size = (float(
-       balance) * (float(strategy["risk"])/100)) / (pip_value * strategy["stopLoss"])
+        balance) * (float(strategy["risk"])/100)) / (pip_value * strategy["stopLoss"])
     lot_size = round(lot_size, 2)
 
     lot_size2 = (float(
@@ -57,7 +57,7 @@ def calc_position_size(symbol, strategy):
 #     "stopLoss": 100})
 
 # print(lot_size)
-def pip_value(symbol,type):
+def pip_value(symbol, type):
     symbol_1 = symbol[0:3]
     symbol_2 = symbol[3:6]
 
@@ -82,21 +82,22 @@ def pip_value(symbol,type):
         except Exception:
             varpip = price
             print('sorry')
-        
-        pip = 100000 * multiplier  / varpip
+
+        pip = 100000 * multiplier / varpip
         return pip
 
-def lot_value(stop_pip,varpip):
+
+def lot_value(stop_pip, varpip):
     account = mt.account_info()
     balance = float(200000)
     Value_per_pip = balance * 0.01 / stop_pip
     lot = (Value_per_pip * (100000 / varpip)) / 100000
-    return round(lot,2)
+    return round(lot, 2)
+
 
 def tradebuy(symbol, type, stop_loss, stop_pip):
 
-
-    lot = lot_value(stop_pip,pip_value(symbol,type))
+    lot = lot_value(stop_pip, pip_value(symbol, type))
 
     if type == "BUY":
         type_trade = mt.ORDER_TYPE_BUY
@@ -122,6 +123,6 @@ def tradebuy(symbol, type, stop_loss, stop_pip):
     print(order)
 
 
-print(lot_value(140,pip_value("asdjl","BUY")))
+print(lot_value(140, pip_value("EURJPY", "BUY")))
 
 # print(pip_calc('USDAUD'))

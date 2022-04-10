@@ -1,10 +1,12 @@
 from msilib.schema import EventMapping
+from turtle import circle
 from pyparsing import Or
 from telethon import TelegramClient, events, sync
 import image
-import curdate
 import trade
-import pyzda
+import tele
+import time
+import pyautogui
 # Remember to use your own values from my.telegram.org!
 api_id = 15397164
 api_hash = '114a37cb56c089726d22431240b1080c'
@@ -13,23 +15,22 @@ client = TelegramClient('anon', api_id, api_hash)
 
 @client.on(events.NewMessage)
 async def my_event_handler(event):
-    pyzda.screenshot()
-    # filename = "gege.jpg"
-    # await event.download_media(filename)
-    # print(curdate.ctime())
-    # print("")
+    pyautogui.click(483, 556)
+    time.sleep(2)
+    tel_event = tele.screenshot()
+    str1 = " "
+    var = str1.join(tel_event)
+
     # volume = 0.06
 
     # symbol = image.getIName(filename).replace(
     #     " ", "").replace("/", "").replace("\n", "")
     # tel_event = event.raw_text.split()
 
-    # if (tel_event[0] == "BUY" or tel_event[0] == "SELL"):
-    #     trade.tradebuy(symbol, volume, tel_event[0])
-
+    if (tel_event[1] == "BUY" or tel_event[1] == "SELL"):
+        #trade.tradebuy(symbol, volume, tel_event[0])
+        await client.send_message("Test", var)
     # print(symbol)
-    print(event.raw_text)
-    print()
 
 
 client.start()
