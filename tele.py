@@ -15,17 +15,17 @@ def screenshot():
     # x1,y1,width,height = pygetwindow.getWindowGeometry('Telegram')
     tt = pygetwindow.getWindowsWithTitle('Telegram')
 
-    pyautogui.screenshot('telegram.png', region=(15, 309, 390, 160))
-    pyautogui.screenshot('telegram2.png', region=(16, 460, 300, 120))
+    pyautogui.screenshot('telegram.png', region=(30, 309, 375, 160))
+    pyautogui.screenshot('telegram2.png', region=(16, 460, 290, 120))
 
     img = Image.open('telegram.png')
    # print(img.height, " ", img.width)
-    resized = img.resize((330, 100))
+    resized = img.resize((300, 120))
     resized.save('telegram.png')
 
     img = Image.open('telegram2.png')
   #  print(img.height, " ", img.width)
-    resized = img.resize((400, 220))
+    resized = img.resize((750, 340))
     resized.save('telegram2.png')
 
     varray = []
@@ -41,4 +41,4 @@ def screenshot():
     return varray
 
 
-# screenshot()
+screenshot()

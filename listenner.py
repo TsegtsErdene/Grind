@@ -15,7 +15,9 @@ client = TelegramClient('anon', api_id, api_hash)
 
 @client.on(events.NewMessage)
 async def my_event_handler(event):
+
     pyautogui.click(483, 556)
+    pyautogui.press('enter')
     time.sleep(2)
     tel_event = tele.screenshot()
     str1 = " "
@@ -27,9 +29,11 @@ async def my_event_handler(event):
     #     " ", "").replace("/", "").replace("\n", "")
     # tel_event = event.raw_text.split()
 
-    if (tel_event[1] == "BUY" or tel_event[1] == "SELL"):
-        #trade.tradebuy(symbol, volume, tel_event[0])
-        await client.send_message("Test", var)
+    # if (tel_event[1] == "BUY" or tel_event[1] == "SELL"):
+    #trade.tradebuy(symbol, volume, tel_event[0])
+    await client.send_file("Test", 'telegram.png')
+    await client.send_file("Test", 'telegram2.png')
+    await client.send_message("Test", var)
     # print(symbol)
 
 
