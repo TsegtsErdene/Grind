@@ -83,3 +83,7 @@ if __name__ == '__main__':
         result = trail_sl()
         # wait 1 second
         time.sleep(1)
+
+positions = mt.positions_get()
+# for pos in positions:
+#     print(pos.ticket)
