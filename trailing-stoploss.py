@@ -24,7 +24,7 @@ import sys
 mt.initialize()
 
 # CONFIGS
-TICKET = 46453455
+TICKET = 46453569
 MAX_DIST_SL = 0.0006  # Max distance between current price and SL, otherwise SL will update
 TRAIL_AMOUNT = 0.0003  # Amount by how much SL updates
 DEFAULT_SL = 0.0003  # If position has no SL, set a default SL
@@ -75,11 +75,16 @@ def trail_sl():
 
 
 if __name__ == '__main__':
-    print('Starting Trailing Stoploss..')
-    print(f'Position: {str(TICKET)}')
+    # print('Starting Trailing Stoploss..')
+    # print(f'Position: {str(TICKET)}')
+    print(mt.positions_get(ticket=TICKET))
+    # # strategy loop
+    # while True:
+    #     result = trail_sl()
+    #     # wait 1 second
+    #     time.sleep(1)
 
-    # strategy loop
-    while True:
-        result = trail_sl()
-        # wait 1 second
-        time.sleep(1)
+
+positions = mt.positions_get()
+# for pos in positions:
+#     print(pos.ticket)
