@@ -1,12 +1,10 @@
-from msilib.schema import EventMapping
-from turtle import circle
-from pyparsing import Or
 from telethon import TelegramClient, events, sync
-import image
 import trade
 import tele
 import time
 import pyautogui
+import psql
+
 # Remember to use your own values from my.telegram.org!
 api_id = 15397164
 api_hash = '114a37cb56c089726d22431240b1080c'
@@ -23,18 +21,23 @@ async def my_event_handler(event):
     str1 = " "
     var = str1.join(tel_event)
 
-    # volume = 0.06
+    try:
+        if(len(var[0]) == 6 and (len(var[1]) == 3 or len(var[1]) == 4) and float(var[2]) and len(var[3]) == 2 and float(var[4]) and len(var[5]) == 2 and float(var[6]) and len(var[7]) == 2 and float(var[8]) and len(var[9]) == 2 and float(var[10]) ):
+            order = trade.trade(var)
+            if(order):
+                psql.save_order(order,list)
 
-    # symbol = image.getIName(filename).replace(
-    #     " ", "").replace("/", "").replace("\n", "")
-    # tel_event = event.raw_text.split()
+        else:
+            print("not buy signal")
+    except Exception as err:
+        print("not buy err: ",err)
 
-    # if (tel_event[1] == "BUY" or tel_event[1] == "SELL"):
-    #trade.tradebuy(symbol, volume, tel_event[0])
+
+
     await client.send_file("Test", 'telegram.png')
     await client.send_file("Test", 'telegram2.png')
     await client.send_message("Test", var)
-    # print(symbol)
+    
 
 
 client.start()

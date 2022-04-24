@@ -3,7 +3,14 @@ from turtle import heading, width
 import pygetwindow
 import pyautogui
 from PIL import Image
-import image
+import pytesseract as tess
+tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+
+def getIName(name):
+    value = Image.open(name)
+    text = tess.image_to_string(value, config='')
+    return text
 
 
 def screenshot():
@@ -29,11 +36,11 @@ def screenshot():
     resized.save('telegram2.png')
 
     varray = []
-    vsymbol = image.getIName('telegram.png').replace(
+    vsymbol = getIName('telegram.png').replace(
         " ", "").replace("/", "").replace("\n", "")
 
     varray.append(vsymbol)
-    values = image.getIName('telegram2.png').split()
+    values = getIName('telegram2.png').split()
 
     varray.extend(values)
 
