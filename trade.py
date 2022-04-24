@@ -1,5 +1,6 @@
 from ast import If
 from pickletools import markobject
+from sre_constants import SUCCESS
 from symtable import Symbol
 from turtle import position
 import MetaTrader5 as mt
@@ -15,14 +16,6 @@ server = "FTMO-Demo"
 mt.login(login, password, server)
 
 
-def Price(symbol, type):
-    if type == "BUY":
-        price = mt.symbol_info_tick(symbol).ask
-        print(price)
-    else:
-        price = mt.symbol_info_tick(symbol).bid
-
-    return price
 
 
 def pip_value(symbol, type):
@@ -36,7 +29,7 @@ def pip_value(symbol, type):
             price = mt.symbol_info_tick(symbol).ask
         else:
             price = mt.symbol_info_tick(symbol).bid
-        print(str(price).index('.'))
+        
         if str(price).index('.') >= 2:  # JPY pair
             print('jpy')
             multiplier = 0.01
@@ -54,18 +47,25 @@ def pip_value(symbol, type):
         pip = 100000 * multiplier / varpip
         return pip
 
+def DecToInt(var):
+    if str(var).index('.') >= 2:  # JPY pair
+        multiplier = 100
+    else:
+        multiplier = 10000
+    var = float(var) * multiplier
+    return int(var)
+
+
 
 def lot_value(stop_pip, varpip):
     account = mt.account_info()
-    balance = float(200000)
+    balance = float(account.balance)
     Value_per_pip = balance * 0.01 / stop_pip
     lot = (Value_per_pip * (100000 / varpip)) / 100000
     return round(lot, 2)
 
 
-def tradebuy(symbol, type, stop_loss, stop_pip):
-
-    lot = lot_value(stop_pip, pip_value(symbol, type))
+def tradebuy(symbol, type, stop_loss, take_profit,lotsize):
 
     if type == "BUY":
         type_trade = mt.ORDER_TYPE_BUY
@@ -77,10 +77,11 @@ def tradebuy(symbol, type, stop_loss, stop_pip):
     request = {
         "action": mt.TRADE_ACTION_DEAL,
         "symbol": symbol,
-        "volume": float(lot),
+        "volume": float(lotsize),
         "type": type_trade,
         "price": price,
-        "tp": 46600.00,
+        "tp": take_profit,
+        "sl": stop_loss,
         "deviation": 20,
         "magic": 234000,
         "type_time": mt.ORDER_TIME_GTC,
@@ -88,37 +89,16 @@ def tradebuy(symbol, type, stop_loss, stop_pip):
     }
 
     order = mt.order_send(request)
-    print(order)
+    return order.order
 
+def trade(list):
+    try:
+        slpip = abs(DecToInt(list[2]) - DecToInt(list[10]))
+        print(DecToInt(list[2]))
+        
+        lotSize = lot_value(slpip, pip_value(list[0], list[1]))
 
-print(lot_value(140, pip_value("EURJPY", "BUY")))
-
-# print(pip_calc('USDAUD'))
-
-
-# def calc_position_size(symbol, strategy):
-#     print("Calculating position size for: ", symbol)
-#     account = mt.account_info()
-#     balance = float(account.balance)
-#     print(balance)
-#     pip_value = constants.get_pip_value(symbol, strategy['account_currency'])
-#     pip_value2 = Price(symbol, 'BUY')
-#     print(pip_value)
-#     lot_size = (float(
-#         balance) * (float(strategy["risk"])/100)) / (pip_value * strategy["stopLoss"])
-#     lot_size = round(lot_size, 2)
-
-#     lot_size2 = (float(
-#         balance) * (float(strategy["risk"])/100)) / (pip_value2 * strategy["stopLoss"])
-#     lot_size2 = round(lot_size2, 2)
-
-#     print("lot: ", lot_size2)
-#     return lot_size
-
-
-# lot_size = calc_position_size('EURUSD', {
-#     "account_currency": "USD",
-#     "risk": 1,
-#     "stopLoss": 100})
-
-# print(lot_size)
+        order = tradebuy(list[0],list[1],list[10],list[4],lotSize)
+        return order
+    except Exception as err:
+        print("trade failed: ",err)
