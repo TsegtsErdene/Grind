@@ -22,22 +22,23 @@ async def my_event_handler(event):
     var = str1.join(tel_event)
 
     try:
-        if(len(var[0]) == 6 and (len(var[1]) == 3 or len(var[1]) == 4) and float(var[2]) and len(var[3]) == 2 and float(var[4]) and len(var[5]) == 2 and float(var[6]) and len(var[7]) == 2 and float(var[8]) and len(var[9]) == 2 and float(var[10]) ):
+        if(len(var[0]) == 6 and (len(var[1]) == 3 or len(var[1]) == 4) and float(var[2]) and len(var[3]) == 2 and float(var[4]) and len(var[5]) == 2 and float(var[6]) and len(var[7]) == 2 and float(var[8]) and len(var[9]) == 2 and float(var[10])):
             order = trade.trade(var)
             if(order):
-                psql.save_order(order,list)
-
+                psql.save_order(order, var)
+                msg = "trade success"
         else:
             print("not buy signal")
+            msg = "not buy signal "
     except Exception as err:
-        print("not buy err: ",err)
 
-
+        print("not buy, err: ", err)
+        msg = "not buy, err: " + err
 
     await client.send_file("Test", 'telegram.png')
     await client.send_file("Test", 'telegram2.png')
     await client.send_message("Test", var)
-    
+    await client.send_message("Test", msg)
 
 
 client.start()
