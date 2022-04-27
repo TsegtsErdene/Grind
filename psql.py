@@ -10,8 +10,8 @@ def save_order(order, list):
         cur = conn.cursor()
         # insert_script = 'INSERT INTO positions (id) VALUES (%s)'
         # insert_value = 2315
-        cur.execute("insert into positions (id,type,current,tp1,tp2,tp3,sl) values (%s, %s, %s, %s ,%s ,%s ,%s)",
-                    (order, list[1], list[2], list[4], list[6], list[8], list[10]))
+        cur.execute("insert into positions (id,symbol,type,current,tp1,tp2,tp3,sl) values (%s, %s, %s, %s, %s ,%s ,%s ,%s)",
+                    (order, list[0], list[1], list[2], list[4], list[6], list[8], list[10]))
         # cur.execute("select * from positions")
         # val = cur.fetchall()
         # for rec in val:
