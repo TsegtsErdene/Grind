@@ -98,7 +98,7 @@ def trade(list):
 
         lotSize = lot_value(slpip, pip_value(list[0], list[1]))
 
-        order = tradebuy(list[0], list[1], list[10], list[4], lotSize)
+        order = tradebuy(list[0], list[1], list[10], list[8], lotSize)
 
         return order
     except Exception as err:

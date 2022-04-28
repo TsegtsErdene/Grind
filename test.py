@@ -3,12 +3,20 @@ import pyautogui
 import MetaTrader5 as mt
 import trade
 import psql
+<<<<<<< HEAD
 list = ['GBPCAD', 'SELL', '1.6370', 'TP', '134.823',
         'TP', '134.53', 'TP', '134.03', 'SL', '1.6520']
 
 
 # psql.save_order(213122, list)
 print(psql.get_all())
+=======
+list = ['USDJPY', 'SELL', '128.05', 'TP', '127.85',
+        'TP', '127.55', 'TP', '127.05', 'SL', '129.55']
+
+
+psql.save_order(213122, list)
+>>>>>>> 25221289038956b8640f4bc7dee661377e35cbb2
 
 request = {
     'action': mt.TRADE_ACTION_SLTP,
