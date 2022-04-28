@@ -42,6 +42,6 @@ async def my_event_handler(event):
     await client.send_message("Test", var)
     await client.send_message("Test", msg)
 
-
+print("starting . . .")
 client.start()
 client.run_until_disconnected()
