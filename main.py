@@ -7,8 +7,8 @@ import pyautogui
 import psql
 
 # Remember to use your own values from my.telegram.org!
-api_id = 15397164
-api_hash = '114a37cb56c089726d22431240b1080c'
+api_id = 15704197
+api_hash = '93bf35de6d90164ee28219645939d912'
 client = TelegramClient('anon', api_id, api_hash)
 
 
@@ -30,17 +30,17 @@ async def my_event_handler(event):
                 psql.save_order(order, tel_event)
                 msg = "trade success"
         else:
-            print("not buy signal")
+            print("okey not buy signal")
             msg = "not buy signal "
     except Exception as err:
 
         print("not buy, err: ", err)
         msg = "not buy, err: " + err
 
-    await client.send_file("Test", 'telegram.png')
-    await client.send_file("Test", 'telegram2.png')
-    await client.send_message("Test", var)
-    await client.send_message("Test", msg)
+    # await client.send_file("Test", 'telegram.png')
+    # await client.send_file("Test", 'telegram2.png')
+    # await client.send_message("Test", var)
+    # await client.send_message("Test", msg)
 
 print("starting . . .")
 client.start()

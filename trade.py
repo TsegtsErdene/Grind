@@ -10,9 +10,9 @@ from datetime import datetime
 
 mt.initialize()
 
-login = 1051158286
-password = "LT5FCYR8BM"
-server = "FTMO-Demo"
+login = 1091054693
+password = "CD9NJQ1DLM"
+server = "FTMO-Server"
 mt.login(login, password, server)
 
 
