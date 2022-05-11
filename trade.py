@@ -10,12 +10,16 @@ from datetime import datetime
 
 mt.initialize()
 
+<<<<<<< HEAD
 login = 1051158286
 password = "LT5FCYR8BM"
 server = "FTMO-Demo"
+=======
+login = 1091054693
+password = "CD9NJQ1DLM"
+server = "FTMO-Server"
+>>>>>>> 3508a0627fa9108d7c6e4af8159949b7c0dd092f
 mt.login(login, password, server)
-
-
 
 
 def pip_value(symbol, type):
@@ -29,7 +33,7 @@ def pip_value(symbol, type):
             price = mt.symbol_info_tick(symbol).ask
         else:
             price = mt.symbol_info_tick(symbol).bid
-        
+
         if str(price).index('.') >= 2:  # JPY pair
             print('jpy')
             multiplier = 0.01
@@ -37,7 +41,7 @@ def pip_value(symbol, type):
             multiplier = 0.0001
             print('nrom')
         symbol_3 = "USD" + symbol_2
-        print(symbol_3)
+
         try:
             varpip = price = mt.symbol_info_tick("USD" + symbol_2).ask
         except Exception:
@@ -46,6 +50,7 @@ def pip_value(symbol, type):
 
         pip = 100000 * multiplier / varpip
         return pip
+
 
 def DecToInt(var):
     if str(var).index('.') >= 2:  # JPY pair
@@ -56,7 +61,6 @@ def DecToInt(var):
     return int(var)
 
 
-
 def lot_value(stop_pip, varpip):
     account = mt.account_info()
     balance = float(account.balance)
@@ -65,23 +69,23 @@ def lot_value(stop_pip, varpip):
     return round(lot, 2)
 
 
-def tradebuy(symbol, type, stop_loss, take_profit,lotsize):
+def tradebuy(symbol, type, stop_loss, take_profit, lotsize):
 
     if type == "BUY":
         type_trade = mt.ORDER_TYPE_BUY
         price = mt.symbol_info_tick(symbol).ask
-        print(price)
     else:
         type_trade = mt.ORDER_TYPE_SELL
         price = mt.symbol_info_tick(symbol).bid
+
     request = {
         "action": mt.TRADE_ACTION_DEAL,
         "symbol": symbol,
         "volume": float(lotsize),
         "type": type_trade,
         "price": price,
-        "tp": take_profit,
-        "sl": stop_loss,
+        "tp": float(take_profit),
+        "sl": float(stop_loss),
         "deviation": 20,
         "magic": 234000,
         "type_time": mt.ORDER_TIME_GTC,
@@ -89,16 +93,19 @@ def tradebuy(symbol, type, stop_loss, take_profit,lotsize):
     }
 
     order = mt.order_send(request)
+
     return order.order
 
+
 def trade(list):
+
     try:
         slpip = abs(DecToInt(list[2]) - DecToInt(list[10]))
-        print(DecToInt(list[2]))
-        
+
         lotSize = lot_value(slpip, pip_value(list[0], list[1]))
 
-        order = tradebuy(list[0],list[1],list[10],list[4],lotSize)
+        order = tradebuy(list[0], list[1], list[10], list[8], lotSize)
+
         return order
     except Exception as err:
-        print("trade failed: ",err)
+        print("trade failed: ", err)

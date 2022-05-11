@@ -44,8 +44,8 @@ def screenshot():
 
     varray.extend(values)
 
-    print(varray)
+    # print(varray)
     return varray
 
 
-screenshot()
+# screenshot()
