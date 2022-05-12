@@ -12,6 +12,7 @@ def trail_sl(pos):
     # print(pos.ticket)
 
     item = psql.get(pos.ticket)
+
     if pos.type == 0:
         if(pos.price_current >= item[0][4] and round(pos.sl, 4) > item[0][3]):
             request = {
