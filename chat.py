@@ -1,16 +1,6 @@
-
-import fbchat
 from fbchat import Client
-from getpass import getpass
-username = "bot.tsegtsee@gmail.com"
-password = "Blackstar15bot"
-client = fbchat.Client(username, password)
-no_of_friends = int(input("Number of friends: "))
-for i in range(no_of_friends):
-    name = str(input("Name: "))
-    friends = client.searchForUsers(name)
-    friend = friends[0]
-    msg = str(input("Message: "))
-    sent = client.send(fbchat.models.Message(msg), friend.uid)
-    if sent:
-        print("Message sent")
+import json
+from fbchat.models import *
+
+client = Client("bot.tsegtsee@gmail.com", "Blackstar15",
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36")
