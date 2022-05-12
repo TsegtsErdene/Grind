@@ -1,9 +1,16 @@
+import requests
 
-import discord
-import random
 
-TOKEN = 'OTc0MTYxMzc3MDk2Nzc3NzI4.GZPk0P.bQBNnIJni2Ds3VngdhEyxbgrWklo95l6eT-mAA'
+def send_discord(msg):
 
-client = discord.Client()
+    payload = {
+        'content': msg
+    }
 
-print(client)
+    header = {
+        'authorization': 'OTc0MjAyNjQwMDgwNzE1Nzk2.GvaLGj.sp4KNlLMRlizhqoVCeDIdDvPwHbJcT2iFMaQFg'
+
+    }
+
+    r = requests.post("https://discord.com/api/v9/channels/974157991903387671/messages",
+                      data=payload, headers=header)
