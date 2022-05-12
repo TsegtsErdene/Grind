@@ -4,6 +4,8 @@ import MetaTrader5 as mt
 import time
 import sys
 import psql
+import msg
+
 # connect Python to MetaTrader5
 mt.initialize()
 
@@ -25,6 +27,8 @@ def trail_sl(pos):
 
 
 def send_order(symbol, signal, tp, sl):
+
+    msg = None
     request = {
         'action': mt.TRADE_ACTION_SLTP,
         'position': pos.ticket,
@@ -36,18 +40,26 @@ def send_order(symbol, signal, tp, sl):
 
     match result.retcode:
         case 10009:
+            msg = symbol + " " + signal
             print("send message success")
+
         case 10016:
+            msg = symbol + " invalid stop"
             print("send invalid stop")
         case 10025:
+            msg = symbol + " no change"
             print("send no change")
         case unknown_command:
+            msg = symbol + " " + unknown_command
             print(unknown_command)
+
+    msg.send_discord(msg)
 
 
 if __name__ == '__main__':
 
     print('Starting Trailing Stoploss..')
+    msg.send_discord("mother ok")
     # strategy loop
     while True:
         positions = mt.positions_get()
