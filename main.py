@@ -22,6 +22,7 @@ async def my_event_handler(event):
     str1 = " "
     var = str1.join(tel_event)
     msg = "null"
+    print(tel_event)
     try:
         if(len(tel_event[0]) == 6 and (len(tel_event[1]) == 3 or len(tel_event[1]) == 4) and float(tel_event[2]) and len(tel_event[3]) == 2 and float(tel_event[4]) and len(tel_event[5]) == 2 and float(tel_event[6]) and len(tel_event[7]) == 2 and float(tel_event[8]) and len(tel_event[9]) == 2 and float(tel_event[10])):
             order = trade.trade(tel_event)

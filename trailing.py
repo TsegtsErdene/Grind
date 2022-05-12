@@ -9,11 +9,11 @@ mt.initialize()
 
 
 def trail_sl(pos):
-    print(pos.ticket)
+    # print(pos.ticket)
 
     item = psql.get(pos.ticket)
     if pos.type == 0:
-        if(pos.price_current >= item[0][4] and round(pos.sl,4) > item[0][3]) :
+        if(pos.price_current >= item[0][4] and round(pos.sl, 4) > item[0][3]):
             request = {
                 'action': mt.TRADE_ACTION_SLTP,
                 'position': pos.ticket,
@@ -33,8 +33,8 @@ def trail_sl(pos):
                 case unknown_command:
                     print(unknown_command)
     else:
-        if(pos.price_current <= item[0][4] and round(pos.sl,4) > item[0][3]):
-           
+        if(pos.price_current <= item[0][4] and round(pos.sl, 4) > item[0][3]):
+
             request = {
                 'action': mt.TRADE_ACTION_SLTP,
                 'position': pos.ticket,
@@ -53,7 +53,7 @@ def trail_sl(pos):
                     print("send no change")
                 case unknown_command:
                     print(unknown_command)
-        print(item)
+        # print(item)
         # print(pos.price_current)
         # print(item[0][4])
         # print(" \space")
@@ -72,7 +72,7 @@ if __name__ == '__main__':
             for pos in positions:
                 trail_sl(pos)
             # wait 1 second
-            # time.sleep(1)
+            time.sleep(1)
         else:
             print('Position does not exist')
             sys.exit()
