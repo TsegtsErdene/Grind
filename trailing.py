@@ -58,7 +58,6 @@ def send_order(symbol, signal, tp, sl):
 if __name__ == '__main__':
 
     print('Starting Trailing Stoploss..')
-    msg.send_discord("mother ok")
     # strategy loop
     while True:
         positions = mt.positions_get()
