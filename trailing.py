@@ -4,7 +4,7 @@ import MetaTrader5 as mt
 import time
 import sys
 import psql
-import msg
+import dchat
 
 # connect Python to MetaTrader5
 mt.initialize()
@@ -53,7 +53,7 @@ def send_order(symbol, signal, tp, sl):
             msg = symbol + " " + unknown_command
             print(unknown_command)
 
-    msg.send_discord(msg)
+    dchat.send_discord(msg)
 
 
 if __name__ == '__main__':
