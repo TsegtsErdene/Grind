@@ -10,59 +10,37 @@ def trail_sl(pos):
     # print(pos.ticket)
 
     item = psql.get(pos.ticket)
-    print(pos)
-    # if pos.type == 0:
-    #     if(pos.price_current >= item[0][4] and round(pos.sl, 4) > item[0][3]):
-    #         request = {
-    #             'action': mt.TRADE_ACTION_SLTP,
-    #             'position': pos.ticket,
-    #             'tp': float(item[0][6]),
-    #             'sl': float(item[0][3]),
+    print(pos.profit)
+    if(pos.profit >= 1000):
+        close_position(pos)
 
-    #         }
-    #         result = mt.order_send(request)
 
-    #         match result.retcode:
-    #             case 10009:
-    #                 print("send message success")
-    #             case 10016:
-    #                 print("send invalid stop")
-    #             case 10025:
-    #                 print("send no change")
-    #             case unknown_command:
-    #                 print(unknown_command)
-    # else:
-    #     if(pos.price_current <= item[0][4] and round(pos.sl, 4) > item[0][3]):
+def close_position(position):
 
-    #         request = {
-    #             'action': mt.TRADE_ACTION_SLTP,
-    #             'position': pos.ticket,
-    #             'tp': float(item[0][6]),
-    #             'sl': float(item[0][3]),
+    tick = mt.symbol_info_tick(position.symbol)
 
-    #         }
-    #         result = mt.order_send(request)
+    request = {
+        "action": mt.TRADE_ACTION_DEAL,
+        "position": position.ticket,
+        "symbol": position.symbol,
+        "volume": position.volume,
+        "type": mt.ORDER_TYPE_BUY if position.type == 1 else mt.ORDER_TYPE_SELL,
+        "price": tick.ask if position.type == 1 else tick.bid,
+        "deviation": 20,
+        "magic": 100,
+        "comment": "thousand closed",
+        "type_time": mt.ORDER_TIME_GTC,
+        "type_filling": mt.ORDER_FILLING_IOC,
+    }
 
-    #         match result.retcode:
-    #             case 10009:
-    #                 print("send message success")
-    #             case 10016:
-    #                 print("send invalid stop")
-    #             case 10025:
-    #                 print("send no change")
-    #             case unknown_command:
-    #                 print(unknown_command)
-        # print(item)
-        # print(pos.price_current)
-        # print(item[0][4])
-        # print(" \space")
+    order = mt.order_send(request)
 
-    # print(item)
+    return order
 
 
 if __name__ == '__main__':
 
-    print('Starting Trailing Stoploss..')
+    print('Close when thousand starting...')
     # strategy loop
     while True:
         positions = mt.positions_get()
