@@ -10,7 +10,6 @@ def trail_sl(pos):
     # print(pos.ticket)
 
     item = psql.get(pos.ticket)
-    print(pos.profit)
     if(pos.profit >= 1000):
         close_position(pos)
 
