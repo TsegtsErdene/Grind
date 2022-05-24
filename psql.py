@@ -67,6 +67,3 @@ def get(order):
             cur.close()
         if conn is not None:
             conn.close()
-
-
-get(2324)

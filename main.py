@@ -5,6 +5,7 @@ import tele
 import time
 import pyautogui
 import psql
+import dchat
 
 # Remember to use your own values from my.telegram.org!
 api_id = 15704197
@@ -38,6 +39,8 @@ async def my_event_handler(event):
         print("not buy, err: ", err)
         msg = "not buy, err: " + err
 
+    dchat.send_discord(var)
+    dchat.send_discord(msg)
     # await client.send_file("Test", 'telegram.png')
     # await client.send_file("Test", 'telegram2.png')
     # await client.send_message("Test", var)
