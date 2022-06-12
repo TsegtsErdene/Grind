@@ -7,7 +7,6 @@ mt.initialize()
 
 
 def trail_sl(pos):
-    # print(pos.profit)
 
     if(pos.profit >= 500):
         close_position(pos)
@@ -41,13 +40,12 @@ if __name__ == '__main__':
     print('Close when thousand starting...')
     # strategy loop
     while True:
-        positions = mt.positions_get()
-        # check if position exists
-        if positions:
-            for pos in positions:
-                trail_sl(pos)
+
+        acc = mt.account_info()
+        if(acc.equity >= 220000):
+            positions = mt.positions_get()
+            if positions:
+                for pos in positions:
+                    close_position(pos)
             # wait 1 second
-            time.sleep(1)
-        else:
-            print('Position does not exist')
-            sys.exit()
+        time.sleep(1)
