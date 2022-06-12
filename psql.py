@@ -1,13 +1,13 @@
 import psycopg2 as pg
 
-host = "20.228.173.229"
+host = "20.247.113.53"
 
 
 def save_order(order, list):
     conn = None
     cur = None
     try:
-        conn = pg.connect(host=host, dbname="trade",
+        conn = pg.connect(host=host, dbname="forex",
                           user="postgres", password=123, port=5432)
         cur = conn.cursor()
         # insert_script = 'INSERT INTO positions (id) VALUES (%s)'
