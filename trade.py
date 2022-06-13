@@ -10,8 +10,8 @@ from datetime import datetime
 
 mt.initialize()
 
-login = 1091054693
-password = "CD9NJQ1DLM"
+login = 1091062086
+password = "FZRVX4CJZK"
 server = "FTMO-Server"
 mt.login(login, password, server)
 
@@ -58,7 +58,7 @@ def DecToInt(var):
 def lot_value(stop_pip, varpip):
     account = mt.account_info()
     balance = float(account.balance)
-    Value_per_pip = balance * 0.015 / stop_pip
+    Value_per_pip = balance * 0.02 / stop_pip
     lot = (Value_per_pip * (100000 / varpip)) / 100000
     return round(lot, 2)
 

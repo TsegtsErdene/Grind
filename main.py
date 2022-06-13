@@ -16,8 +16,8 @@ client = TelegramClient('anon', api_id, api_hash)
 @client.on(events.NewMessage)
 async def my_event_handler(event):
 
-  #  pyautogui.click(483, 556)
-   # pyautogui.press('enter')
+    pyautogui.click(483, 556)
+    pyautogui.press('enter')
     time.sleep(2)
     tel_event = tele.screenshot()
     str1 = " "
