@@ -14,18 +14,29 @@ def trail_sl(pos):
 
     item = psql.get(pos.ticket)
 
-    if pos.type == 0:
-        if(pos.price_current >= item[0][4] and round(pos.sl, 4) > item[0][3]):
+    if pos.type == 0: #BUY
+        if(pos.price_current >= item[0][4] and round(pos.sl, 4) < item[0][3]): #tp 1 reached
 
-            send_order(item[0][1], "tp1 reachaed", item[0][6], item[0][3])
+            send_order(item[0][1], "tp1 reached", item[0][6], item[0][3],pos)
 
-    else:
-        if(pos.price_current <= item[0][4] and round(pos.sl, 4) > item[0][3]):
+        elif(pos.price_current >= item[0][5] and round(pos.sl, 4) < item[0][4]): #tp 2 reached
 
-            send_order(item[0][1], "tp1 reachaed", item[0][6], item[0][3])
+            send_order(item[0][1], "tp2 reached", item[0][6], item[0][4],pos)
+
+            
 
 
-def send_order(symbol, signal, tp, sl):
+    else: #Sell
+        if(pos.price_current <= item[0][4] and round(pos.sl, 4) > item[0][3]): #tp 1 reached
+
+            send_order(item[0][1], "tp1 reached", item[0][6], item[0][3],pos)
+
+        elif(pos.price_current <= item[0][5] and round(pos.sl, 4) > item[0][4]): #tp 2 reached
+
+            send_order(item[0][1], "tp2 reached", item[0][6], item[0][4],pos)
+
+
+def send_order(symbol, signal, tp, sl,pos):
 
     msg = None
     request = {
@@ -56,7 +67,6 @@ def send_order(symbol, signal, tp, sl):
 
 
 if __name__ == '__main__':
-
     print('Starting Trailing Stoploss..')
     # strategy loop
     while True:
