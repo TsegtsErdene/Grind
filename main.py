@@ -29,7 +29,7 @@ async def my_event_handler(event):
             order = trade.trade(tel_event)
             msg = "order is null"
             if(order != None and order != 0):
-                # psql.save_order(order, tel_event)
+                psql.save_order(order, tel_event)
                 msg = "trade success"
         else:
             print("okey not buy signal")
