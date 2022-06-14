@@ -1,13 +1,14 @@
 import psycopg2 as pg
 
 host = "20.247.113.53"
+db = "forex"
 
 
 def save_order(order, list):
     conn = None
     cur = None
     try:
-        conn = pg.connect(host=host, dbname="forex",
+        conn = pg.connect(host=host, dbname=db,
                           user="postgres", password=123, port=5432)
         cur = conn.cursor()
         # insert_script = 'INSERT INTO positions (id) VALUES (%s)'
@@ -33,7 +34,7 @@ def get_all():
     conn = None
     cur = None
     try:
-        conn = pg.connect(host=host, dbname="trade",
+        conn = pg.connect(host=host, dbname=db,
                           user="postgres", password=123, port=5432)
         cur = conn.cursor()
         cur.execute("select * from positions")
@@ -53,7 +54,7 @@ def get(order):
     conn = None
     cur = None
     try:
-        conn = pg.connect(host=host, dbname="trade",
+        conn = pg.connect(host=host, dbname=db,
                           user="postgres", password=123, port=5432)
         cur = conn.cursor()
         cur.execute("SELECT * FROM positions WHERE id = %s", [order])
