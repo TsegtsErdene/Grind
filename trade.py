@@ -1,4 +1,5 @@
 from ast import If
+from audioop import mul
 from pickletools import markobject
 from sre_constants import SUCCESS
 from symtable import Symbol
@@ -104,11 +105,16 @@ def trade(list):
     except Exception as err:
         print("trade failed: ", err)
 
-def pip_trail(value,pip):
-    if str(value).index('.') >= 2:  # JPY pair
-        value += pip * 0.01
-    else:
-        value += pip * 0.001
-    return value
 
-print(pip_trail(1.4894,20))
+def pip_trail(value, pip, type):
+    if str(value).index('.') >= 2:  # JPY pair
+        multiplier = 0.01
+    else:
+        multiplier = 0.01
+
+    if(type == 0):
+        value += pip * multiplier
+    else:
+        value -= pip * multiplier
+
+    return value
