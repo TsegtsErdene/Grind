@@ -23,6 +23,7 @@ def trail_sl(pos):
 
             send_order(item[0][1], "tp2 reached", item[0][6], item[0][4],pos)
 
+      
             
 
 

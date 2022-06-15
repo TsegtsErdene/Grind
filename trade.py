@@ -103,3 +103,12 @@ def trade(list):
         return order
     except Exception as err:
         print("trade failed: ", err)
+
+def pip_trail(value,pip):
+    if str(value).index('.') >= 2:  # JPY pair
+        value += pip * 0.01
+    else:
+        value += pip * 0.001
+    return value
+
+print(pip_trail(1.4894,20))

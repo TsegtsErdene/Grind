@@ -68,3 +68,6 @@ def get(order):
             cur.close()
         if conn is not None:
             conn.close()
+
+def create_trail(order):
+    print
