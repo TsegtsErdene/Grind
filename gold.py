@@ -1,3 +1,4 @@
+import sys 
 import trade
 
-trade.goldbuy(input("type: "),input("repeat: "))
+trade.goldbuy(sys.argv[1],int(sys.argv[2]))

@@ -46,6 +46,11 @@ if __name__ == '__main__':
         positions = mt.positions_get()
         if positions:
             for pos in positions:
-                close_position(pos)
-        # wait 1 second
+                if pos.symbol == "XAUUSD":
+                    close_position(pos)
+        else:
+            print('Position does not exist')
+            sys.exit()
+
         time.sleep(1)
+        
