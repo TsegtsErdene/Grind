@@ -7,13 +7,15 @@ from turtle import position
 import MetaTrader5 as mt
 import pandas as pd
 import plotly.express as px
+from psql import *
 from datetime import datetime
+
 
 mt.initialize()
 
-login = 1091062086
-password = "FZRVX4CJZK"
-server = "FTMO-Server"
+login = 1051200398
+password = "9Y3SZBPAH9"
+server = "FTMO-Demo"
 mt.login(login, password, server)
 
 
@@ -24,7 +26,7 @@ def pip_value(symbol, type):
     if symbol_2 == "USD":
         return 10
     else:
-        if type == "BUY":
+        if type == "BUY" or type == "buy":
             price = mt.symbol_info_tick(symbol).ask
         else:
             price = mt.symbol_info_tick(symbol).bid
@@ -58,15 +60,15 @@ def DecToInt(var):
 
 def lot_value(stop_pip, varpip):
     account = mt.account_info()
-    balance = float(account.balance)
-    Value_per_pip = balance * 0.02 / stop_pip
+    balance = float(100000)
+    Value_per_pip = balance * 0.05 / stop_pip
     lot = (Value_per_pip * (100000 / varpip)) / 100000
     return round(lot, 2)
 
 
 def tradebuy(symbol, type, stop_loss, take_profit, lotsize):
 
-    if type == "BUY":
+    if type == "BUY" or type == "buy":
         type_trade = mt.ORDER_TYPE_BUY
         price = mt.symbol_info_tick(symbol).ask
     else:
@@ -118,3 +120,53 @@ def pip_trail(value, pip, type):
         value -= pip * multiplier
 
     return value
+
+def goldbuy(type,repeat = 1):
+
+    if type == "BUY" or type == "buy":
+        type_trade = mt.ORDER_TYPE_BUY
+        price = mt.symbol_info_tick('XAUUSD').ask
+        stoploss = price - 5
+    else:
+        type_trade = mt.ORDER_TYPE_SELL
+        price = mt.symbol_info_tick('XAUUSD').bid
+        stoploss = price + 5
+
+    slpip = abs(DecToInt(stoploss) - DecToInt(price))
+
+    lotSize = lot_value(slpip, pip_value('XAUUSD', type))
+
+    request = {
+        "action": mt.TRADE_ACTION_DEAL,
+        "symbol": 'XAUUSD',
+        "volume": float(lotSize),
+        "type": type_trade,
+        "price": price,
+        "sl": float(stoploss),
+        "deviation": 20,
+        "magic": 234000,
+        "type_time": mt.ORDER_TIME_GTC,
+        "type_filling": mt.ORDER_FILLING_IOC,
+    }
+
+    conn = None
+    cur = None
+    conn = pg.connect(host=host, dbname=db,user="postgres", password=123, port=5432)
+    cur = conn.cursor()
+    for i in range(int(repeat)):
+
+        order = mt.order_send(request)
+
+        if(order.order != None and order.order != 0):
+
+            if type == "BUY" or type == "buy":
+
+                stop = float(order.price) + 1
+
+            else:
+                stop = float(order.price) - 1
+                
+            save_gold(order.order, type_trade, order.price,stop ,conn,cur)
+
+    cur.close()
+    conn.close()

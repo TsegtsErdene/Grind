@@ -29,6 +29,49 @@ def save_order(order, list):
         if conn is not None:
             conn.close()
 
+def save_gold(order, type_trade, current, tp,conn,cur):
+ 
+    try:
+        cur.execute("insert into trail (id,symbol,type,temp,tp1) values (%s, %s, %s, %s, %s)",
+                        (order, "XAUUSD", type_trade, current, tp))
+        conn.commit()
+    except Exception as error:
+        print("psql err: ", error)
+ 
+def update_gold(order, current, tp):
+    conn = None
+    cur = None
+    try:
+        conn = pg.connect(host=host, dbname=db,user="postgres", password=123, port=5432)
+        cur = conn.cursor()
+        cur.execute("UPDATE trail SET temp = %s, tp1 = %s WHERE id = %s;",
+                        (current,tp,order))
+        conn.commit()
+    except Exception as error:
+        print("psql err: ", error)
+    finally:
+        if cur is not None:
+            cur.close()
+        if conn is not None:
+            conn.close()
+
+def get_gold(order):
+    conn = None
+    cur = None
+    try:
+        conn = pg.connect(host=host, dbname=db,user="postgres", password=123, port=5432)
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM trail WHERE id = %s", [order])
+        val = cur.fetchall()
+        conn.commit()
+        return val
+    except Exception as error:
+        print("psql err: ", error)
+    finally:
+        if cur is not None:
+            cur.close()
+        if conn is not None:
+            conn.close()
 
 def get_all():
     conn = None

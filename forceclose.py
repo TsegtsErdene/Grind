@@ -42,10 +42,10 @@ if __name__ == '__main__':
     while True:
 
         acc = mt.account_info()
-        if(acc.equity >= 220000):
-            positions = mt.positions_get()
-            if positions:
-                for pos in positions:
-                    close_position(pos)
-            # wait 1 second
+        
+        positions = mt.positions_get()
+        if positions:
+            for pos in positions:
+                close_position(pos)
+        # wait 1 second
         time.sleep(1)

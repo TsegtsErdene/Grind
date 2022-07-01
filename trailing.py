@@ -13,41 +13,34 @@ mt.initialize()
 
 def trail_sl(pos):
 
-    item = psql.get(pos.ticket)
+    item = psql.get_gold(pos.ticket)
 
     if pos.type == 0:  # BUY
-        # tp 1 reached
+        
         if(pos.price_current >= item[0][4] and round(pos.sl, 4) < item[0][3]):
+            send_order("XAUUSD","tp1 reached",item[0][3],pos)
+            psql.update_gold(pos.ticket,float(item[0][3]) + 1,float(item[0][4])+1)
 
-            send_order(item[0][1
-                               ], "tp1 reached", item[0][6], item[0][3], pos)
-
-        # tp 2 reached
-        elif(pos.price_current >= item[0][5] and round(pos.sl, 4) < item[0][4]):
-
-            send_order(item[0][1], "tp2 reached", trade.pip_trail(
-                item[0][6], 40, 0), item[0][4], pos)
 
     else:  # Sell
         # tp 1 reached
         if(pos.price_current <= item[0][4] and round(pos.sl, 4) > item[0][3]):
-
-            send_order(item[0][1], "tp1 reached", item[0][6], item[0][3], pos)
-
-        # tp 2 reached
-        elif(pos.price_current <= item[0][5] and round(pos.sl, 4) > item[0][4]):
-
-            send_order(item[0][1], "tp2 reached", item[0][6], item[0][4], pos)
+            #if(pos.price_current <= item[0][4] and round(pos.sl, 4) > item[0][3]):
 
 
-def send_order(symbol, signal, tp, sl, pos):
+            send_order("XAUUSD","tp1 reached",item[0][3],pos)
+            psql.update_gold(pos.ticket,float(item[0][3]) - 1,float(item[0][4])-1)
+
+
+
+
+def send_order(symbol, signal, sl, pos):
 
     msg = None
     request = {
         'action': mt.TRADE_ACTION_SLTP,
         'position': pos.ticket,
-        'tp': float(tp),
-        'sl': float(sl),
+        'sl': float(sl)+0.2,
 
     }
     result = mt.order_send(request)
@@ -75,12 +68,26 @@ if __name__ == '__main__':
     # strategy loop
     while True:
         positions = mt.positions_get()
+        cbuy = 0
+        csell = 0
         # check if position exists
         if positions:
             for pos in positions:
                 trail_sl(pos)
-            # wait 1 second
-            time.sleep(1)
-        else:
-            print('Position does not exist')
-            sys.exit()
+
+        #         if pos.type == 0:
+        #             cbuy += 1
+        #         elif pos.type == 1:
+        #             csell += 1
+
+        #     if cbuy == 0:
+        #         trade.goldbuy('buy',1)
+        #     elif csell == 0: 
+        #         trade.goldbuy('sell',1)
+        #         time.sleep(1)
+        # else:
+        #     trade.goldbuy('buy',1)
+        #     trade.goldbuy('sell',1)
+        # else:
+        #     print('Position does not exist')
+        #     sys.exit()
