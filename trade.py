@@ -13,9 +13,9 @@ from datetime import datetime
 
 mt.initialize()
 
-login = 1051200398
-password = "9Y3SZBPAH9"
-server = "FTMO-Demo"
+login = 1091062086
+password = "FZRVX4CJZK"
+server = "FTMO-Server"
 mt.login(login, password, server)
 
 
@@ -170,3 +170,54 @@ def goldbuy(type,repeat = 1):
 
     cur.close()
     conn.close()
+
+def goldbuyinone(type,repeat = 1):
+
+    if type == "BUY" or type == "buy":
+        type_trade = mt.ORDER_TYPE_BUY
+        price = mt.symbol_info_tick('XAUUSD').ask
+        stoploss = price - 5
+    else:
+        type_trade = mt.ORDER_TYPE_SELL
+        price = mt.symbol_info_tick('XAUUSD').bid
+        stoploss = price + 5
+
+    slpip = abs(DecToInt(stoploss) - DecToInt(price))
+
+    lotSize = lot_value(slpip, pip_value('XAUUSD', type)) * repeat
+
+    request = {
+        "action": mt.TRADE_ACTION_DEAL,
+        "symbol": 'XAUUSD',
+        "volume": float(lotSize),
+        "type": type_trade,
+        "price": price,
+        "sl": float(stoploss),
+        "deviation": 20,
+        "magic": 234000,
+        "type_time": mt.ORDER_TIME_GTC,
+        "type_filling": mt.ORDER_FILLING_IOC,
+    }
+
+    conn = None
+    cur = None
+    conn = pg.connect(host=host, dbname=db,user="postgres", password=123, port=5432)
+    cur = conn.cursor()
+    for i in range(int(repeat)):
+
+        order = mt.order_send(request)
+
+        if(order.order != None and order.order != 0):
+
+            if type == "BUY" or type == "buy":
+
+                stop = float(order.price) + 1
+
+            else:
+                stop = float(order.price) - 1
+                
+            save_gold(order.order, type_trade, order.price,stop ,conn,cur)
+
+    cur.close()
+    conn.close()
+

@@ -21,3 +21,9 @@ return
 
 !d::
 Run, %ComSpec% /k python %dir%\forceclose.py && exit
+
+!g::
+InputBox, UserInput, How many, Please enter a number, , 200, 150
+if !ErrorLevel
+    Run, %ComSpec% /k python %dir%\gold.py buy %UserInput% && goldinone exit
+return
