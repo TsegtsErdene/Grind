@@ -13,9 +13,14 @@ from datetime import datetime
 
 mt.initialize()
 
-login = 1091062086
-password = "FZRVX4CJZK"
-server = "FTMO-Server"
+# login = 1091062086 #main
+# password = "FZRVX4CJZK"
+# server = "FTMO-Server"
+
+login = 1051200398 #alt
+password = "9Y3SZBPAH9"
+server = "FTMO-Demo"
+
 mt.login(login, password, server)
 
 
@@ -203,21 +208,41 @@ def goldbuyinone(type,repeat = 1):
     cur = None
     conn = pg.connect(host=host, dbname=db,user="postgres", password=123, port=5432)
     cur = conn.cursor()
-    for i in range(int(repeat)):
 
-        order = mt.order_send(request)
+    order = mt.order_send(request)
 
-        if(order.order != None and order.order != 0):
+    if(order.order != None and order.order != 0):
 
-            if type == "BUY" or type == "buy":
+        if type == "BUY" or type == "buy":
 
-                stop = float(order.price) + 1
+            stop = float(order.price) + 1
 
-            else:
-                stop = float(order.price) - 1
-                
-            save_gold(order.order, type_trade, order.price,stop ,conn,cur)
+        else:
+            stop = float(order.price) - 1
+            
+        save_gold(order.order, type_trade, order.price,stop ,conn,cur)
 
     cur.close()
     conn.close()
 
+def close_position(position):
+
+    tick = mt.symbol_info_tick(position.symbol)
+
+    request = {
+        "action": mt.TRADE_ACTION_DEAL,
+        "position": position.ticket,
+        "symbol": position.symbol,
+        "volume": position.volume,
+        "type": mt.ORDER_TYPE_BUY if position.type == 1 else mt.ORDER_TYPE_SELL,
+        "price": tick.ask if position.type == 1 else tick.bid,
+        "deviation": 20,
+        "magic": 100,
+        "comment": "thousand closed",
+        "type_time": mt.ORDER_TIME_GTC,
+        "type_filling": mt.ORDER_FILLING_IOC,
+    }
+
+    order = mt.order_send(request)
+
+    return order

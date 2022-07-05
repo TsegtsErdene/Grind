@@ -39,18 +39,24 @@ if __name__ == '__main__':
 
     print('Close when thousand starting...')
     # strategy loop
-    while True:
-
-        acc = mt.account_info()
-        
-        positions = mt.positions_get()
-        if positions:
-            for pos in positions:
-                if pos.symbol == "XAUUSD":
-                    close_position(pos)
-        else:
-            print('Position does not exist')
+    acc = mt.account_info()
+    positions = mt.positions_get()
+    try:
+        if sys.argv[1] != None:
+            for i in range(int(sys.argv[1])):
+                if positions[i].symbol == "XAUUSD":
+                    close_position(positions[i])
             sys.exit()
+    except:
+        while True:
+         
+            if positions:
+                for pos in positions:
+                    if pos.symbol == "XAUUSD":
+                        close_position(pos)
+            else:
+                print('Position does not exist')
+                sys.exit()
 
-        time.sleep(1)
+            time.sleep(1)
         

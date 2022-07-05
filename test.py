@@ -12,7 +12,8 @@ import psql
 positions = mt.positions_get()
 cbuy = 0
 csell = 0
-for pos in positions:
+for pos in range(positions):
+    print(pos.ticket)
     if pos.type == 0:
         cbuy += 1
     elif pos.type == 1:
