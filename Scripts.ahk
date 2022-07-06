@@ -13,31 +13,32 @@ if !ErrorLevel
     Run, %ComSpec% /k python %dir%\gold.py buy %UserInput% && exit
 return
 
-!#b::
+!c::
 InputBox, UserInput, How many, Please enter a number, , 200, 150
 if !ErrorLevel
     Run, %ComSpec% /k python %dir%\gold.py buy %UserInput% goldinone && exit
 return
 
 
-!c::
+!g::
 InputBox, UserInput, How many, Please enter a number, , 200, 150
 if !ErrorLevel
     Run, %ComSpec% /k python %dir%\gold.py sell %UserInput% && exit
 return
 
 
-!#c::
+!f::
 InputBox, UserInput, How many, Please enter a number, , 200, 150
 if !ErrorLevel
     Run, %ComSpec% /k python %dir%\gold.py sell %UserInput% goldinone && exit
 return
 
 
-!d::
+!r::
 Run, %ComSpec% /k python %dir%\forceclose.py && exit
+return
 
-!#d::
+!t::
 InputBox, UserInput, How many, Please enter a number, , 200, 150
 if !ErrorLevel
     Run, %ComSpec% /k python %dir%\forceclose.py %UserInput% && exit

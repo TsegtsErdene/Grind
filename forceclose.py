@@ -47,9 +47,10 @@ if __name__ == '__main__':
                 if positions[i].symbol == "XAUUSD":
                     close_position(positions[i])
             sys.exit()
-    except:
+    except Exception as err:
+        print("not buy, err: ", err)
         while True:
-         
+            positions = mt.positions_get()
             if positions:
                 for pos in positions:
                     if pos.symbol == "XAUUSD":
