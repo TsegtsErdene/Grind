@@ -11,9 +11,14 @@ from datetime import datetime
 
 mt.initialize()
 
-login = 1051397310
-password = "3FSEC7AZ9U"
-server = "FTMO-Demo"
+login = 1034074
+password = "3WTP9Hm4Ep1IF4"
+server = "TrueProprietaryFunds-Demo"
+
+#agaa
+# login = 1034055
+# password = "l1jUGBm8vhcNbE"
+# server = "TrueProprietaryFunds-Demo"
 mt.login(login, password, server)
 
 
@@ -30,18 +35,18 @@ def pip_value(symbol, type):
             price = mt.symbol_info_tick(symbol).bid
 
         if str(price).index('.') >= 2:  # JPY pair
-            print('jpy')
+            # print('jpy')
             multiplier = 0.01
         else:
             multiplier = 0.0001
-            print('nrom')
+            # print('nrom')
         symbol_3 = "USD" + symbol_2
 
         try:
             varpip = price = mt.symbol_info_tick("USD" + symbol_2).ask
         except Exception:
             varpip = price
-            print('sorry')
+            # print('sorry')
 
         pip = 100000 * multiplier / varpip
         return pip
@@ -88,7 +93,6 @@ def tradebuy(symbol, type, stop_loss, take_profit, lotsize):
     }
 
     order = mt.order_send(request)
-
     return order.order
 
 
@@ -103,7 +107,7 @@ def trade(list):
 
         return order
     except Exception as err:
-        print("trade failed: ", err)
+        # print("trade failed: ", err)
 
 
 def pip_trail(value, pip, type):
