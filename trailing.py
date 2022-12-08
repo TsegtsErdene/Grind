@@ -81,6 +81,3 @@ if __name__ == '__main__':
                 trail_sl(pos)
             # wait 1 second
             time.sleep(1)
-        else:
-            print('Position does not exist')
-            sys.exit()

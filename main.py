@@ -16,8 +16,8 @@ client = TelegramClient('anon', api_id, api_hash)
 @client.on(events.NewMessage)
 async def my_event_handler(event):
 
-    pyautogui.click(483, 556)
-    pyautogui.press('enter')
+    # pyautogui.click(483, 556)
+   # pyautogui.press('enter')
     time.sleep(2)
     tel_event = tele.screenshot()
     str1 = " "
@@ -39,8 +39,8 @@ async def my_event_handler(event):
         print("not buy, err: ", err)
         msg = "not buy, err: " + err
 
-    dchat.send_discord(var)
-    dchat.send_discord(msg)
+    # dchat.send_discord(var)
+    # dchat.send_discord(msg)
     # await client.send_file("Test", 'telegram.png')
     # await client.send_file("Test", 'telegram2.png')
     # await client.send_message("Test", var)
