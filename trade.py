@@ -107,7 +107,7 @@ def trade(list):
 
         return order
     except Exception as err:
-        # print("trade failed: ", err)
+        print("trade failed: ", err)
 
 
 def pip_trail(value, pip, type):
