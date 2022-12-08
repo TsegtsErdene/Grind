@@ -1,15 +1,17 @@
 import psycopg2 as pg
 
-host = "20.247.113.53"
+host = "localhost"
 db = "forex"
+pwd = "Blackstar15"
 
 
 def save_order(order, list):
+    print(order, list[0], list[1], list[2], list[4], list[6], list[8], list[10])
     conn = None
     cur = None
     try:
         conn = pg.connect(host=host, dbname=db,
-                          user="postgres", password=123, port=5432)
+                          user="postgres", password=pwd, port=5432)
         cur = conn.cursor()
         # insert_script = 'INSERT INTO positions (id) VALUES (%s)'
         # insert_value = 2315
@@ -35,7 +37,7 @@ def get_all():
     cur = None
     try:
         conn = pg.connect(host=host, dbname=db,
-                          user="postgres", password=123, port=5432)
+                          user="postgres", password=pwd, port=5432)
         cur = conn.cursor()
         cur.execute("select * from positions")
         val = cur.fetchall()
@@ -55,7 +57,7 @@ def get(order):
     cur = None
     try:
         conn = pg.connect(host=host, dbname=db,
-                          user="postgres", password=123, port=5432)
+                          user="postgres", password=pwd, port=5432)
         cur = conn.cursor()
         cur.execute("SELECT * FROM positions WHERE id = %s", [order])
         val = cur.fetchall()
