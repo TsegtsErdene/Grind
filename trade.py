@@ -11,9 +11,14 @@ from datetime import datetime
 
 mt.initialize()
 
-login = 1051397310
-password = "3FSEC7AZ9U"
-server = "FTMO-Demo"
+login = 1034074
+password = "3WTP9Hm4Ep1IF4"
+server = "TrueProprietaryFunds-Demo"
+
+#agaa
+# login = 1034055
+# password = "l1jUGBm8vhcNbE"
+# server = "TrueProprietaryFunds-Demo"
 mt.login(login, password, server)
 
 
