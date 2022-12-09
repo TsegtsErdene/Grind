@@ -14,7 +14,6 @@ mt.initialize()
 def trail_sl(pos):
 
     item = psql.get(pos.ticket)
-
     if pos.type == 0:  # BUY
         # tp 1 reached
         if(pos.price_current >= item[0][4] and round(pos.sl, 4) < item[0][3]):
@@ -55,17 +54,17 @@ def send_order(symbol, signal, tp, sl, pos):
     match result.retcode:
         case 10009:
             msg = symbol + " " + signal
-            print("send message success")
+            # print("send message success")
 
         case 10016:
             msg = symbol + " invalid stop"
-            print("send invalid stop")
+            # print("send invalid stop")
         case 10025:
             msg = symbol + " no change"
-            print("send no change")
+            # print("send no change")
         case unknown_command:
             msg = symbol + " " + unknown_command
-            print(unknown_command)
+            # print(unknown_command)
 
     dchat.send_discord(msg)
 

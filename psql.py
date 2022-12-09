@@ -71,5 +71,5 @@ def get(order):
         if conn is not None:
             conn.close()
 
-def create_trail(order):
-    print
+# def create_trail(order):
+#     # print
