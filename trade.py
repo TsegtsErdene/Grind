@@ -11,19 +11,19 @@ from datetime import datetime
 
 mt.initialize()
 
-login = 1051397310
-password = "3FSEC7AZ9U"
-server = "FTMO-Demo"
+# login = 1051397310
+# password = "3FSEC7AZ9U"
+# server = "FTMO-Demo"
 
 # login = 1034074
 # password = "3WTP9Hm4Ep1IF4"
 # server = "TrueProprietaryFunds-Demo"
 
 #agaa
-# login = 1034055
-# password = "l1jUGBm8vhcNbE"
-# server = "TrueProprietaryFunds-Demo"
-# mt.login(login, password, server)
+login = 1035835
+password = "A6s8Ql1hbllq9U"
+server = "TrueProprietaryFunds-Demo"
+mt.login(login, password, server)
 
 
 def pip_value(symbol, type):
@@ -47,11 +47,10 @@ def pip_value(symbol, type):
         symbol_3 = "USD" + symbol_2
 
         try:
-            varpip = price = mt.symbol_info_tick("USD" + symbol_2).ask
+            varpip = price = mt.symbol_info_tick("USD" + symbol_2+".tff").ask
         except Exception:
             varpip = price
             # print('sorry')
-
         pip = 100000 * multiplier / varpip
         return pip
 
@@ -69,7 +68,7 @@ def lot_value(stop_pip, varpip):
     account = mt.account_info()
     balance = float(10000)
     Value_per_pip = balance * 0.01 / stop_pip
-    lot = (Value_per_pip * (10000 / varpip)) / 10000
+    lot = (Value_per_pip * (100000 / varpip)) / 100000
     return round(lot, 2)
 
 
@@ -92,8 +91,6 @@ def tradebuy(symbol, type, stop_loss, take_profit, lotsize):
         "sl": float(stop_loss),
         "deviation": 20,
         "magic": 234000,
-        "type_time": mt.ORDER_TIME_GTC,
-        "type_filling": mt.ORDER_FILLING_IOC,
     }
 
     order = mt.order_send(request)

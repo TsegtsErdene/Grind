@@ -6,7 +6,7 @@ pwd = "Blackstar15"
 
 
 def save_order(order, list):
-    print(order, list[0], list[1], list[2], list[4], list[6], list[8], list[10])
+    # print(order, list[0], list[1], list[2], list[4], list[6], list[8], list[10])
     conn = None
     cur = None
     try:
