@@ -72,43 +72,83 @@ def lot_value(stop_pip, varpip):
     return round(lot, 2)
 
 
-def tradebuy(symbol, type, stop_loss, take_profit, lotsize):
+def tradebuy(symbol, type, stop_loss, take_profit, lotsize, orderT,pric):
 
-    if type == "BUY":
-        type_trade = mt.ORDER_TYPE_BUY
-        price = mt.symbol_info_tick(symbol).ask
+    if orderT == False:
+         #limit order
+        if type == "BUY":
+            type_trade = mt.ORDER_TYPE_BUY_LIMIT
+        else:
+            type_trade = mt.ORDER_TYPE_SELL_LIMIT
+
+        request = {
+            "action": mt.TRADE_ACTION_PENDING,
+            "symbol": symbol,
+            "volume": float(lotsize),
+            "type": type_trade,
+            "price": float(pric),
+            "tp": float(take_profit),
+            "sl": float(stop_loss),
+            "deviation": 20,
+            "magic": 234000,
+        }
+        
+
+        order = mt.order_send(request)
+
+        
+    if orderT == True:
+        #market buy
+        if type == "BUY":
+            type_trade = mt.ORDER_TYPE_BUY
+            price = mt.symbol_info_tick(symbol).ask
+        else:
+            type_trade = mt.ORDER_TYPE_SELL
+            price = mt.symbol_info_tick(symbol).bid
+
+        request = {
+            "action": mt.TRADE_ACTION_DEAL,
+            "symbol": symbol,
+            "volume": float(lotsize),
+            "type": type_trade,
+            "price": price,
+            "tp": float(take_profit),
+            "sl": float(stop_loss),
+            "deviation": 20,
+            "magic": 234000,
+        }
+
+        order = mt.order_send(request)
+
+    if order.retcode == 10015:
+        raise Exception(order.comment)
     else:
-        type_trade = mt.ORDER_TYPE_SELL
-        price = mt.symbol_info_tick(symbol).bid
-
-    request = {
-        "action": mt.TRADE_ACTION_DEAL,
-        "symbol": symbol,
-        "volume": float(lotsize),
-        "type": type_trade,
-        "price": price,
-        "tp": float(take_profit),
-        "sl": float(stop_loss),
-        "deviation": 20,
-        "magic": 234000,
-    }
-
-    order = mt.order_send(request)
-    return order.order
+        return order.comment
 
 
 def trade(list):
 
     try:
-        slpip = abs(DecToInt(list[2]) - DecToInt(list[10]))
+        msg = []
+        if(list['tp1'] != ''):
+            order = tradebuy(list['symbol'], list['type'], list['sl'], list['tp1'], 0.3,list['order'],list['price'])
+            msg.append("TP1 " + order) 
 
-        lotSize = lot_value(slpip, pip_value(list[0], list[1]))
+        if(list['tp2'] != ''):
+            order = tradebuy(list['symbol'], list['type'], list['sl'], list['tp2'], 0.2,list['order'],list['price'])
+            msg.append("TP2 " + order) 
 
-        order = tradebuy(list[0], list[1], list[10], list[8], lotSize)
+        if(list['tp3'] != ''):
+            order = tradebuy(list['symbol'], list['type'], list['sl'], list['tp3'], 0.1,list['order'],list['price'])
+            msg.append("TP3 " + order) 
 
-        return order
+        if not msg:
+            raise Exception("TP алга бро")
+        return msg
+
     except Exception as err:
         print("trade failed: ", err)
+        raise err
 
 
 def pip_trail(value, pip, type):
