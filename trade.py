@@ -11,18 +11,14 @@ from datetime import datetime
 
 mt.initialize()
 
-# login = 1051397310
-# password = "3FSEC7AZ9U"
-# server = "FTMO-Demo"
+#login = 1051435944
+#password = "WLW2VB4M1R"
+#server = "FTMO-Demo"
 
-# login = 1034074
-# password = "3WTP9Hm4Ep1IF4"
-# server = "TrueProprietaryFunds-Demo"
-
-#agaa
-login = 1035835
-password = "A6s8Ql1hbllq9U"
+login = 1043377
+password = "py9Fgpx5yRpElf"
 server = "TrueProprietaryFunds-Demo"
+
 mt.login(login, password, server)
 
 
@@ -72,7 +68,7 @@ def lot_value(stop_pip, varpip):
     return round(lot, 2)
 
 
-def tradebuy(symbol, type, stop_loss, take_profit, lotsize, orderT,pric):
+def tradebuy(symbol, type, stop_loss, take_profit, lotsize, orderT,pric,tp1):
 
     if orderT == False:
          #limit order
@@ -90,10 +86,10 @@ def tradebuy(symbol, type, stop_loss, take_profit, lotsize, orderT,pric):
             "tp": float(take_profit),
             "sl": float(stop_loss),
             "deviation": 20,
+            "comment":tp1,
             "magic": 234000,
         }
         
-
         order = mt.order_send(request)
 
         
@@ -115,10 +111,13 @@ def tradebuy(symbol, type, stop_loss, take_profit, lotsize, orderT,pric):
             "tp": float(take_profit),
             "sl": float(stop_loss),
             "deviation": 20,
+            "comment":tp1,
             "magic": 234000,
         }
 
         order = mt.order_send(request)
+
+    print(order)
 
     if order.retcode == 10015:
         raise Exception(order.comment)
@@ -131,15 +130,15 @@ def trade(list):
     try:
         msg = []
         if(list['tp1'] != ''):
-            order = tradebuy(list['symbol'], list['type'], list['sl'], list['tp1'], 0.3,list['order'],list['price'])
+            order = tradebuy(list['symbol'], list['type'], list['sl'], list['tp1'], 0.3,list['order'],list['price'], list['tp1'])
             msg.append("TP1 " + order) 
 
         if(list['tp2'] != ''):
-            order = tradebuy(list['symbol'], list['type'], list['sl'], list['tp2'], 0.2,list['order'],list['price'])
+            order = tradebuy(list['symbol'], list['type'], list['sl'], list['tp2'], 0.2,list['order'],list['price'], list['tp1'])
             msg.append("TP2 " + order) 
 
         if(list['tp3'] != ''):
-            order = tradebuy(list['symbol'], list['type'], list['sl'], list['tp3'], 0.1,list['order'],list['price'])
+            order = tradebuy(list['symbol'], list['type'], list['sl'], list['tp3'], 0.1,list['order'],list['price'], list['tp1'])
             msg.append("TP3 " + order) 
 
         if not msg:

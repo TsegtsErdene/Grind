@@ -1,12 +1,8 @@
 from flask import Flask, request, make_response, jsonify
 from flask_cors import CORS, cross_origin
+import MetaTrader5 as mt
 import trade
-import tele
-import time
-import pyautogui
-import psql
-import dchat
-
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -46,8 +42,15 @@ def buy():
         # print("not buy, err: ", err.message)
         return str(err) , 417
     
-
-
+@app.route("/getPos",methods = ["POST","GET"])
+def get_pos():
+    data = []
+    positions = mt.positions_get()
+    for pos in positions:
+        data.append(pos._asdict())
+    # print(data)
+    
+    return data
 if __name__ == '__main__':
     # app.run(host='0.0.0.0',port=5009, ssl_context=("cert.pem","key.pem") )
     app.run(host='0.0.0.0',port=5009 )

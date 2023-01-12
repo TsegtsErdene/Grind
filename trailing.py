@@ -41,12 +41,12 @@ def trail_sl(pos):
                 send_order(item[0][1], "tp2 reached", item[0][6], item[0][4], pos)
 
 
-def send_order(symbol, signal, tp, sl, pos):
+def send_order(tp, sl, ticket):
 
     msg = None
     request = {
         'action': mt.TRADE_ACTION_SLTP,
-        'position': pos.ticket,
+        'position': ticket,
         'tp': float(tp),
         'sl': float(sl),
 
@@ -55,20 +55,32 @@ def send_order(symbol, signal, tp, sl, pos):
 
     match result.retcode:
         case 10009:
-            msg = symbol + " " + signal
-            # print("send message success")
+            msg = ''
+                       # print("send message success")
 
         case 10016:
-            msg = symbol + " invalid stop"
+            msg =  " invalid stop"
             # print("send invalid stop")
         case 10025:
-            msg = symbol + " no change"
+            msg =  " no change"
             # print("send no change")
         case unknown_command:
-            msg = symbol + " " + unknown_command
+            msg =  " " + unknown_command
             # print(unknown_command)
 
     dchat.send_discord(msg)
+
+def trail_to_BE(pos):
+    if pos.comment != '0' and pos.comment != '':
+        if pos.type == 0: # BUY
+            if float(pos.comment) <= pos.price_current:
+                send_order(pos.tp,pos.price_open,pos.ticket)
+
+        else: # SELL
+            if float(pos.comment) >= pos.price_current:
+                send_order(pos.tp,pos.price_open,pos.ticket)
+
+
 
 
 if __name__ == '__main__':
@@ -79,6 +91,6 @@ if __name__ == '__main__':
         # check if position exists
         if positions:
             for pos in positions:
-                trail_sl(pos)
+                trail_to_BE(pos)
             # wait 1 second
             time.sleep(1)
