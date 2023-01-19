@@ -15,8 +15,8 @@ mt.initialize()
 #password = "WLW2VB4M1R"
 #server = "FTMO-Demo"
 
-login = 1043377
-password = "py9Fgpx5yRpElf"
+login = 1046294
+password = "ldtkmDcxngHC50"
 server = "TrueProprietaryFunds-Demo"
 
 mt.login(login, password, server)
@@ -117,7 +117,7 @@ def tradebuy(symbol, type, stop_loss, take_profit, lotsize, orderT,pric,tp1):
 
         order = mt.order_send(request)
 
-    print(order)
+    # print(order)
 
     if order.retcode == 10015:
         raise Exception(order.comment)
