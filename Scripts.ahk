@@ -7,27 +7,27 @@ script  = %dir%\test.py
 buy = buy
 
 
-!b::
-InputBox, UserInput, How many, Please enter a number, , 200, 150
-if !ErrorLevel
-    Run, %ComSpec% /k python %dir%\gold.py buy %UserInput% && exit
-return
+; !f::
+; InputBox, UserInput, How many, Please enter a number, , 200, 150
+; if !ErrorLevel
+;     Run, %ComSpec% /k python %dir%\gold.py buy %UserInput% && exit
+; return
 
-!c::
+!g::
 InputBox, UserInput, How many, Please enter a number, , 200, 150
 if !ErrorLevel
     Run, %ComSpec% /k python %dir%\gold.py buy %UserInput% goldinone && exit
 return
 
 
-!g::
-InputBox, UserInput, How many, Please enter a number, , 200, 150
-if !ErrorLevel
-    Run, %ComSpec% /k python %dir%\gold.py sell %UserInput% && exit
-return
+; !b::
+; InputBox, UserInput, How many, Please enter a number, , 200, 150
+; if !ErrorLevel
+;     Run, %ComSpec% /k python %dir%\gold.py sell %UserInput% && exit
+; return
 
 
-!f::
+!v::
 InputBox, UserInput, How many, Please enter a number, , 200, 150
 if !ErrorLevel
     Run, %ComSpec% /k python %dir%\gold.py sell %UserInput% goldinone && exit

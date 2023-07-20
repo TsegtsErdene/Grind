@@ -13,9 +13,9 @@ from datetime import datetime
 
 mt.initialize()
 
-login = 61100646 #main
-password = "Empa2021*"
-server = "Pepperstone-Demo"
+login = 1091062086 #main
+password = "FZRVX4CJZK"
+server = "FTMO-Server"
 
 # login = 1051200398 #alt
 # password = "9Y3SZBPAH9"
@@ -131,11 +131,11 @@ def goldbuy(type,repeat = 1):
     if type == "BUY" or type == "buy":
         type_trade = mt.ORDER_TYPE_BUY
         price = mt.symbol_info_tick('XAUUSD').ask
-        stoploss = price - 3
+        stoploss = price - 5
     else:
         type_trade = mt.ORDER_TYPE_SELL
         price = mt.symbol_info_tick('XAUUSD').bid
-        stoploss = price + 3
+        stoploss = price + 5
 
     slpip = abs(DecToInt(stoploss) - DecToInt(price))
 
@@ -144,7 +144,7 @@ def goldbuy(type,repeat = 1):
     request = {
         "action": mt.TRADE_ACTION_DEAL,
         "symbol": 'XAUUSD',
-        "volume": float(0.1),
+        "volume": float(lotSize),
         "type": type_trade,
         "price": price,
         "sl": float(stoploss),
@@ -181,15 +181,15 @@ def goldbuyinone(type,repeat = 1):
     if type == "BUY" or type == "buy":
         type_trade = mt.ORDER_TYPE_BUY
         price = mt.symbol_info_tick('XAUUSD').ask
-        stoploss = price - 3
+        stoploss = price - 5
     else:
         type_trade = mt.ORDER_TYPE_SELL
         price = mt.symbol_info_tick('XAUUSD').bid
-        stoploss = price + 3
+        stoploss = price + 5
 
     slpip = abs(DecToInt(stoploss) - DecToInt(price))
 
-    lotSize = 0.1 * repeat
+    lotSize = lot_value(slpip, pip_value('XAUUSD', type)) * repeat
 
     request = {
         "action": mt.TRADE_ACTION_DEAL,
