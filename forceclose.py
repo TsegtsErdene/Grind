@@ -42,7 +42,8 @@ if __name__ == '__main__':
     while True:
 
         acc = mt.account_info()
-        if(acc.equity >= 220000):
+        print(acc.profit <= -3900)
+        if(acc.profit <= -3900):
             positions = mt.positions_get()
             if positions:
                 for pos in positions:

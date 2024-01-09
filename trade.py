@@ -31,19 +31,18 @@ def pip_value(symbol, type):
             price = mt.symbol_info_tick(symbol).bid
 
         if str(price).index('.') >= 2:  # JPY pair
-            print('jpy')
+            # print('jpy')
             multiplier = 0.01
         else:
             multiplier = 0.0001
-            print('nrom')
+            # print('nrom')
         symbol_3 = "USD" + symbol_2
 
         try:
-            varpip = price = mt.symbol_info_tick("USD" + symbol_2).ask
+            varpip = price = mt.symbol_info_tick("USD" + symbol_2+".tff").ask
         except Exception:
             varpip = price
-            print('sorry')
-
+            # print('sorry')
         pip = 100000 * multiplier / varpip
         return pip
 
@@ -59,8 +58,8 @@ def DecToInt(var):
 
 def lot_value(stop_pip, varpip):
     account = mt.account_info()
-    balance = float(account.balance)
-    Value_per_pip = balance * 0.02 / stop_pip
+    balance = float(10000)
+    Value_per_pip = balance * 0.01 / stop_pip
     lot = (Value_per_pip * (100000 / varpip)) / 100000
     triple = lot / 3
     return round(triple, 2)
@@ -92,7 +91,6 @@ def tradebuy(symbol, type, stop_loss, take_profit, lotsize,tp_first):
 
 
     order = mt.order_send(request)
-
     return order.order
 
 

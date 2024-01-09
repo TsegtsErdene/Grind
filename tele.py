@@ -32,7 +32,7 @@ def screenshot():
 
     img = Image.open('telegram2.png')
   #  print(img.height, " ", img.width)
-    resized = img.resize((750, 340))
+    resized = img.resize((750, 350))
     resized.save('telegram2.png')
 
     varray = []
