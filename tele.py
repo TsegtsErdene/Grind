@@ -22,8 +22,8 @@ def screenshot():
     # x1,y1,width,height = pygetwindow.getWindowGeometry('Telegram')
     tt = pygetwindow.getWindowsWithTitle('Telegram')
 
-    pyautogui.screenshot('telegram.png', region=(30, 309, 375, 160))
-    pyautogui.screenshot('telegram2.png', region=(16, 460, 290, 120))
+    pyautogui.screenshot('telegram.png', region=(30, 270, 375, 140))
+    pyautogui.screenshot('telegram2.png', region=(16, 410, 240, 150))
 
     img = Image.open('telegram.png')
    # print(img.height, " ", img.width)

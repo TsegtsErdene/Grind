@@ -8,12 +8,13 @@ import MetaTrader5 as mt
 import pandas as pd
 import plotly.express as px
 from datetime import datetime
+import math
 
 mt.initialize()
 
-login = 1091062086
-password = "FZRVX4CJZK"
-server = "FTMO-Server"
+login = 520044350
+password = "6NX@9Nq6H9"
+server = "FTMO-Server2"
 mt.login(login, password, server)
 
 
@@ -61,10 +62,11 @@ def lot_value(stop_pip, varpip):
     balance = float(account.balance)
     Value_per_pip = balance * 0.02 / stop_pip
     lot = (Value_per_pip * (100000 / varpip)) / 100000
-    return round(lot, 2)
+    triple = lot / 3
+    return round(triple, 2)
 
 
-def tradebuy(symbol, type, stop_loss, take_profit, lotsize):
+def tradebuy(symbol, type, stop_loss, take_profit, lotsize,tp_first):
 
     if type == "BUY":
         type_trade = mt.ORDER_TYPE_BUY
@@ -85,7 +87,9 @@ def tradebuy(symbol, type, stop_loss, take_profit, lotsize):
         "magic": 234000,
         "type_time": mt.ORDER_TIME_GTC,
         "type_filling": mt.ORDER_FILLING_IOC,
+        "comment":tp_first
     }
+
 
     order = mt.order_send(request)
 
@@ -98,8 +102,9 @@ def trade(list):
         slpip = abs(DecToInt(list[2]) - DecToInt(list[10]))
 
         lotSize = lot_value(slpip, pip_value(list[0], list[1]))
-
-        order = tradebuy(list[0], list[1], list[10], list[8], lotSize)
+        order = tradebuy(list[0], list[1], list[10], list[4], lotSize,list[4])
+        tradebuy(list[0], list[1], list[10], list[6], lotSize,list[4])
+        tradebuy(list[0], list[1], list[10], list[8], lotSize,list[4])
 
         return order
     except Exception as err:

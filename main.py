@@ -8,15 +8,16 @@ import psql
 import dchat
 
 # Remember to use your own values from my.telegram.org!
-api_id = 15704197
-api_hash = '93bf35de6d90164ee28219645939d912'
+api_id = 27773249
+api_hash = '01469e016e1b3ffc352c4ce2e6fb4fa3'
 client = TelegramClient('anon', api_id, api_hash)
 
 
 @client.on(events.NewMessage)
 async def my_event_handler(event):
 
-    pyautogui.click(483, 556)
+
+    pyautogui.click(643, 796)
     pyautogui.press('enter')
     time.sleep(2)
     tel_event = tele.screenshot()
@@ -29,7 +30,9 @@ async def my_event_handler(event):
             order = trade.trade(tel_event)
             msg = "order is null"
             if(order != None and order != 0):
-                psql.save_order(order, tel_event)
+         
+
+               # psql.save_order(order, tel_event)
                 msg = "trade success"
         else:
             print("okey not buy signal")
@@ -39,8 +42,9 @@ async def my_event_handler(event):
         print("not buy, err: ", err)
         msg = "not buy, err: " + err
 
-    dchat.send_discord(var)
-    dchat.send_discord(msg)
+    # dchat.send_discord(var)
+    # dchat.send_discord(msg)
+
     # await client.send_file("Test", 'telegram.png')
     # await client.send_file("Test", 'telegram2.png')
     # await client.send_message("Test", var)
